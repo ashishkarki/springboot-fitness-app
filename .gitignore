@@ -1,6 +1,54 @@
-.vscode/
-.DS_Store
+# Maven target directory
+**/target/
+
+# Maven specific files
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# IDEs
 .idea/
 *.iml
-out/
-target/
+*.ipr
+*.iws
+
+# VS Code
+.vscode/
+
+# macOS system files
+.DS_Store
+
+# Logs
+*.log
+
+# Eclipse
+.settings/
+.project
+.classpath
+
+# Lombok generated
+*.lombok
+
+# Docker stuff
+*.env
+
+# Build info
+build-info.properties
+git.properties
+
+# Node stuff (if you ever add a frontend)
+node_modules/
+
+# Test output
+surefire-reports/
+
+# Database temp files
+*.h2.db
+*.mv.db
+
+# OS specific
+Thumbs.db
+ehthumbs.db
+Desktop.ini
