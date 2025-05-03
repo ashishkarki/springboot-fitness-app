@@ -1,6 +1,7 @@
 package com.fitness.userservice.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +28,17 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserResponse> register(@Valid @RequestBody RegisterRequest requestBody) {
-        return ResponseEntity.ok(userService.register(requestBody));
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest requestBody) {
+        try {
+            UserResponse user = userService.register(requestBody);
+
+            return ResponseEntity.ok(user);
+        } catch (RuntimeException rte) {
+            // email already exists or other business logic error
+            return ResponseEntity.status(HttpStatusCode.valueOf(409)).body(rte.getMessage());
+        } catch (Exception e) {
+            // any other exception
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }

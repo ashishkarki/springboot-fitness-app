@@ -14,6 +14,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>userservice</module>
+        <module>activityservice</module>
     </modules>
     <build>
         <plugins>
