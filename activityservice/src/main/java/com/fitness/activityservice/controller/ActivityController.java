@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -15,8 +16,11 @@ import com.fitness.activityservice.dto.ActivityResponse;
 import com.fitness.activityservice.service.ActivityService;
 import com.fitness.core.dto.ApiResponse;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/activities")
 @RequiredArgsConstructor
@@ -24,18 +28,20 @@ public class ActivityController {
   private final ActivityService activityService;
 
   @PostMapping
-  public ResponseEntity<?> trackActivity(@RequestBody ActivityRequest activityRequest) {
+  public ResponseEntity<ApiResponse<ActivityResponse>> trackActivity(
+      @Valid @RequestBody ActivityRequest activityRequest) {
     try {
       // Add validation if needed
-      // log.debug("Tracking activity for user: {}", activityRequest.getUserId());
+      log.debug("Tracking activity for user: {}", activityRequest.getUserId());
       ActivityResponse activityResponse = activityService.trackActivity(activityRequest);
       return ResponseEntity.ok(ApiResponse.success(activityResponse));
     } catch (Exception e) {
-      // log.error("Error tracking activity", e);
+      log.error("Error tracking activity", e);
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.error(e.getMessage()));
     }
   }
 
+  @GetMapping
   public ResponseEntity<ApiResponse<List<ActivityResponse>>> getUserActivities(
       @RequestHeader("X-User-Id") String userId) {
     try {

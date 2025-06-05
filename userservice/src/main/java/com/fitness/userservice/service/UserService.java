@@ -1,6 +1,7 @@
 package com.fitness.userservice.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.fitness.userservice.dto.RegisterRequest;
@@ -25,9 +26,12 @@ public class UserService {
       throw new RuntimeException("User with email: " + requestBody.getEmail() + " already exists!!");
     }
 
+    // encrypt the password
+    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     User user = new User();
     user.setEmail(requestBody.getEmail());
-    user.setPassword(requestBody.getPassword());
+    user.setPassword(passwordEncoder.encode(requestBody.getPassword()));
     user.setFirstName(requestBody.getFirstName());
     user.setLastName(requestBody.getLastName());
 

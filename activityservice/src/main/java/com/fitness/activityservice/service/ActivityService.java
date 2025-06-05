@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.fitness.activityservice.dto.ActivityRequest;
 import com.fitness.activityservice.dto.ActivityResponse;
+import com.fitness.activityservice.mapper.ActivityMapper;
 import com.fitness.activityservice.model.Activity;
 import com.fitness.activityservice.repository.ActivityRepository;
 
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ActivityService {
   private final ActivityRepository activityRepository;
+  private final ActivityMapper activityMapper;
 
   /**
    * Saves an activity to the database.
@@ -23,21 +25,14 @@ public class ActivityService {
    * @return the saved activity as a response
    */
   public ActivityResponse trackActivity(ActivityRequest activityRequest) {
-    // Create an activity from the request
-    Activity activity = Activity.builder()
-        .userId(activityRequest.getUserId())
-        .type(activityRequest.getType())
-        .duration(activityRequest.getDuration())
-        .caloriesBurned(activityRequest.getCaloriesBurned())
-        .startTime(activityRequest.getStartTime())
-        .additionalMetrics(activityRequest.getAdditionalMetrics())
-        .build();
+    // Convert the request to an Activity object
+    Activity activity = activityMapper.toActivity(activityRequest);
 
     // Save the activity to the db
     Activity savedActivity = activityRepository.save(activity);
 
     // Return the saved activity as a response
-    return savedActivity.toActivityResponse();
+    return activityMapper.toActivityResponse(savedActivity);
   }
 
   /**
