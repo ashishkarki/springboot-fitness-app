@@ -9,12 +9,12 @@ import lombok.Data;
 
 @Data
 public abstract class BaseActivityDto {
-    private String userId;
-    private ActivityType type;
-    private Integer duration;
-    private Integer caloriesBurned;
-    private LocalDateTime startTime;
-    private Map<String, Object> additionalMetrics;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+  private String userId;
+  private ActivityType type;
+  private int duration;
+  private int caloriesBurned;
+  private LocalDateTime startTime;
+  private Map<String, Object> additionalMetrics;
+  private LocalDateTime createdAt;
+  private LocalDateTime updatedAt;
 }

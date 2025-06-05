@@ -10,31 +10,38 @@ import com.fitness.userservice.repository.UserRepository;
 
 @Service
 public class UserService {
-    @Autowired
-    private UserRepository userRepository;
+  @Autowired
+  private UserRepository userRepository;
 
-    public UserResponse register(RegisterRequest requestBody) {
-        if (userRepository.existsByEmail(requestBody.getEmail())) {
-            throw new RuntimeException("User with email: " + requestBody.getEmail() + " already exists!!");
-        }
-
-        User user = new User();
-        user.setEmail(requestBody.getEmail());
-        user.setPassword(requestBody.getPassword());
-        user.setFirstName(requestBody.getFirstName());
-        user.setLastName(requestBody.getLastName());
-
-        // save to the db
-        User savedUser = userRepository.save(user);
-
-        return UserResponse.from(savedUser);
+  /**
+   * Registers a new user in the system.
+   *
+   * @param requestBody The registration details of the user to be created
+   * @return UserResponse containing the details of the newly created user
+   * @throws RuntimeException if a user with the provided email already exists
+   */
+  public UserResponse register(RegisterRequest requestBody) {
+    if (userRepository.existsByEmail(requestBody.getEmail())) {
+      throw new RuntimeException("User with email: " + requestBody.getEmail() + " already exists!!");
     }
 
-    public UserResponse getUserProfile(String userId) {
-        User searchedUser = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User with id: " + userId + " not found"));
+    User user = new User();
+    user.setEmail(requestBody.getEmail());
+    user.setPassword(requestBody.getPassword());
+    user.setFirstName(requestBody.getFirstName());
+    user.setLastName(requestBody.getLastName());
 
-        return UserResponse.from(searchedUser);
-    }
+    // save to the db
+    User savedUser = userRepository.save(user);
+
+    return UserResponse.from(savedUser);
+  }
+
+  public UserResponse getUserProfile(String userId) {
+    User searchedUser = userRepository.findById(userId)
+        .orElseThrow(() -> new RuntimeException("User with id: " + userId + " not found"));
+
+    return UserResponse.from(searchedUser);
+  }
 
 }

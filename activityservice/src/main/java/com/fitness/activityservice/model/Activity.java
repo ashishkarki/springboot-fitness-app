@@ -9,6 +9,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import com.fitness.activityservice.dto.ActivityResponse;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -41,4 +43,24 @@ public class Activity {
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
+
+    /**
+     * Transforms the current Activity object to an ActivityResponse object.
+     *
+     * @return An ActivityResponse object representing the current Activity
+     */
+    public ActivityResponse toActivityResponse() {
+        ActivityResponse activityResponse = new ActivityResponse();
+        activityResponse.setId(this.id);
+        activityResponse.setUserId(this.userId);
+        activityResponse.setType(this.type);
+        activityResponse.setDuration(this.duration);
+        activityResponse.setCaloriesBurned(this.caloriesBurned);
+        activityResponse.setStartTime(this.startTime);
+        activityResponse.setAdditionalMetrics(this.additionalMetrics);
+        activityResponse.setCreatedAt(this.createdAt);
+        activityResponse.setUpdatedAt(this.updatedAt);
+
+        return activityResponse;
+    }
 }

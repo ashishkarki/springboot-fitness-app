@@ -61,6 +61,11 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- add the core sub module as one of the dependencies -->
+		<dependency>
+			<groupId>com.fitness</groupId>
+			<artifactId>core</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

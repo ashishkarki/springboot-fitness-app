@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fitness.core.dto.ApiResponse;
 import com.fitness.userservice.dto.RegisterRequest;
 import com.fitness.userservice.dto.UserResponse;
 import com.fitness.userservice.service.UserService;
@@ -19,26 +20,26 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
-    @Autowired
-    private UserService userService;
+  @Autowired
+  private UserService userService;
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<UserResponse> getUserProfile(@PathVariable String userId) {
-        return ResponseEntity.ok(userService.getUserProfile(userId));
+  @GetMapping("/{userId}")
+  public ResponseEntity<UserResponse> getUserProfile(@PathVariable String userId) {
+    return ResponseEntity.ok(userService.getUserProfile(userId));
+  }
+
+  @PostMapping("/register")
+  public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest requestBody) {
+    try {
+      UserResponse user = userService.register(requestBody);
+
+      return ResponseEntity.ok(ApiResponse.success(user));
+    } catch (RuntimeException rte) {
+      // email already exists or other business logic error
+      return ResponseEntity.status(HttpStatusCode.valueOf(409)).body(ApiResponse.error(rte.getMessage()));
+    } catch (Exception e) {
+      // any other exception
+      return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
     }
-
-    @PostMapping("/register")
-    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest requestBody) {
-        try {
-            UserResponse user = userService.register(requestBody);
-
-            return ResponseEntity.ok(user);
-        } catch (RuntimeException rte) {
-            // email already exists or other business logic error
-            return ResponseEntity.status(HttpStatusCode.valueOf(409)).body(rte.getMessage());
-        } catch (Exception e) {
-            // any other exception
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
+  }
 }
