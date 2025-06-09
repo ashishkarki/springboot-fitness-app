@@ -1,7 +1,6 @@
 package com.fitness.userservice.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,8 +19,11 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
-  @Autowired
-  private UserService userService;
+  private final UserService userService;
+
+  public UserController(UserService userService) {
+    this.userService = userService;
+  }
 
   @GetMapping("/{userId}")
   public ResponseEntity<UserResponse> getUserProfile(@PathVariable String userId) {
@@ -36,7 +38,7 @@ public class UserController {
       return ResponseEntity.ok(ApiResponse.success(user));
     } catch (RuntimeException rte) {
       // email already exists or other business logic error
-      return ResponseEntity.status(HttpStatusCode.valueOf(409)).body(ApiResponse.error(rte.getMessage()));
+      return ResponseEntity.status(HttpStatus.CONFLICT).body(ApiResponse.error(rte.getMessage()));
     } catch (Exception e) {
       // any other exception
       return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));

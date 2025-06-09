@@ -1,18 +1,21 @@
 package com.fitness.userservice.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.fitness.userservice.dto.RegisterRequest;
 import com.fitness.userservice.dto.UserResponse;
+import com.fitness.userservice.exception.UserAlreadyExistsException;
 import com.fitness.userservice.model.User;
 import com.fitness.userservice.repository.UserRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class UserService {
-  @Autowired
-  private UserRepository userRepository;
+  private final UserRepository userRepository;
+  private final BCryptPasswordEncoder passwordEncoder;
 
   /**
    * Registers a new user in the system.
@@ -23,21 +26,19 @@ public class UserService {
    */
   public UserResponse register(RegisterRequest requestBody) {
     if (userRepository.existsByEmail(requestBody.getEmail())) {
-      throw new RuntimeException("User with email: " + requestBody.getEmail() + " already exists!!");
+      throw new UserAlreadyExistsException("User with email: " + requestBody.getEmail() + " already exists!!");
     }
-
-    // encrypt the password
-    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     User user = new User();
     user.setEmail(requestBody.getEmail());
-    user.setPassword(passwordEncoder.encode(requestBody.getPassword()));
+    user.setPassword(passwordEncoder.encode(requestBody.getPassword())); // encrypt the password
     user.setFirstName(requestBody.getFirstName());
     user.setLastName(requestBody.getLastName());
 
     // save to the db
     User savedUser = userRepository.save(user);
 
+    // return the response as UserResponse object
     return UserResponse.from(savedUser);
   }
 
