@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -42,7 +43,7 @@ public class ActivityController {
   }
 
   @GetMapping
-  public ResponseEntity<ApiResponse<List<ActivityResponse>>> getUserActivities(
+  public ResponseEntity<ApiResponse<List<ActivityResponse>>> getActivitiesByUserId(
       @RequestHeader("X-User-Id") String userId) {
     try {
       List<ActivityResponse> activities = activityService.getActivitiesByUserId(userId);
@@ -50,7 +51,16 @@ public class ActivityController {
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.error(e.getMessage()));
     }
+  }
 
+  @GetMapping("/{activityId}")
+  public ResponseEntity<ApiResponse<ActivityResponse>> getActivityById(@PathVariable String activityId) {
+    try {
+      ActivityResponse activity = activityService.getActivityById(activityId);
+      return ResponseEntity.ok(ApiResponse.success(activity));
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.error(e.getMessage()));
+    }
   }
 
 }

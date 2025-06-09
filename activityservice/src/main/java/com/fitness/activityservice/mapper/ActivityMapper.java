@@ -1,6 +1,7 @@
 package com.fitness.activityservice.mapper;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import com.fitness.activityservice.dto.ActivityRequest;
 import com.fitness.activityservice.dto.ActivityResponse;
@@ -15,5 +16,6 @@ import com.fitness.activityservice.model.Activity;
 public interface ActivityMapper {
   ActivityResponse toActivityResponse(Activity activity);
 
+  @Mapping(target = "id", ignore = true)
   Activity toActivity(ActivityRequest activityRequest);
 }
