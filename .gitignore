@@ -33,6 +33,9 @@ release.properties
 
 # Docker stuff
 *.env
+*.env.**
+docker-compose.yml
+docker-compose.**.yml
 
 # Build info
 build-info.properties
@@ -52,3 +55,4 @@ surefire-reports/
 Thumbs.db
 ehthumbs.db
 Desktop.ini
+.env
