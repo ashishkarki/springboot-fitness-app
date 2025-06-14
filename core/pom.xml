@@ -10,12 +10,8 @@
   </parent>
   <groupId>com.fitness</groupId>
   <artifactId>core</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
   <name>core</name>
   <description>Common core module of bigger fitness microservices app</description>
-  <properties>
-    <java.version>24</java.version>
-  </properties>
   <dependencies>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -35,7 +31,7 @@
       <artifactId>spring-security-crypto</artifactId>
     </dependency>
   </dependencies>
-  <build>
+  <!-- <build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -61,11 +57,10 @@
             </goals>
             <configuration>
               <skip>true</skip>
-              <!-- 👈 THIS is the fix -->
             </configuration>
           </execution>
         </executions>
       </plugin>
     </plugins>
-  </build>
+  </build> -->
 </project>

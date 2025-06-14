@@ -1,23 +1,57 @@
 spring:
   application:
-    name: activityservice
+    name: activity-service
   data:
     mongodb:
       uri: mongodb://mongo:mongo123@localhost:27017/fitness_activity_db?authSource=admin
+      # Additional MongoDB configuration for better connection handling
+      connection-timeout: 20000
+      socket-timeout: 60000
 
 server:
   port: 8082
 
+# ✅ MISSING: Eureka client configuration
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
+
+# Enhanced management/actuator configuration
 management:
   endpoints:
     web:
       exposure:
-        include: health, info
+        include:
+          - health
+          - info
+          - env
+          - metrics
+          - mongodb
   health:
     db:
       enabled: true
     defaults:
       enabled: true
+    mongo:
+      enabled: true
   endpoint:
     health:
       show-details: always
+  info:
+    env:
+      enabled: true
+
+# Logging configuration
+logging:
+  level:
+    '[com.fitness]': DEBUG
+    '[org.springframework.cloud.netflix.eureka]': DEBUG
+    '[org.springframework.data.mongodb]': DEBUG

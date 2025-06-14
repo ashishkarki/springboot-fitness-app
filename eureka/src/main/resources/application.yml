@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: eureka-server
+  cloud:
+    compatibility-verifier:
+      enabled: false
+
+server:
+  port: 8761
+
+eureka:
+  client:
+    register-with-eureka: false # the server doesn't register with itself
+    fetch-registry: false
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  server:
+    # Recommended settings for development
+    enable-self-preservation: false
+    eviction-interval-timer-in-ms: 10000
+  instance:
+    hostname: localhost
+
+# Management endpoints for monitoring
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,env
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    '[com.netflix.eureka]': DEBUG
+    '[com.netflix.discovery]': DEBUG

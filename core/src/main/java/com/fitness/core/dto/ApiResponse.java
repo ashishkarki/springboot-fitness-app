@@ -16,13 +16,13 @@ public class ApiResponse<T> {
     if (data == null) {
       throw new IllegalArgumentException("Success response data cannot be null");
     }
-    return new ApiResponse<>(true, data, null);
+    return new ApiResponse<T>(true, data, null);
   }
 
   public static <T> ApiResponse<T> error(String errorMessage) {
     if (errorMessage == null || errorMessage.trim().isEmpty()) {
       throw new IllegalArgumentException("Error message cannot be null or empty");
     }
-    return new ApiResponse<>(false, null, errorMessage);
+    return new ApiResponse<T>(false, null, errorMessage);
   }
 }
