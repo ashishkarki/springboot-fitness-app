@@ -12,9 +12,7 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: false
     properties:
-      hibernate:
-        '[format_sql]': true
-
+      hibernate.format_sql: true
 server:
   port: 8081
 
@@ -53,5 +51,5 @@ management:
 # Logging
 logging:
   level:
-    '[com.fitness]': DEBUG
-    '[org.springframework.cloud.netflix.eureka]': DEBUG
+    'com.fitness': DEBUG
+    'org.springframework.cloud.netflix.eureka': DEBUG

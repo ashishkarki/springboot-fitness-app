@@ -45,13 +45,13 @@ management:
   endpoint:
     health:
       show-details: always
-  info:
-    env:
-      enabled: true
+info:
+  env:
+    enabled: true
 
 # Logging configuration
 logging:
   level:
-    '[com.fitness]': DEBUG
-    '[org.springframework.cloud.netflix.eureka]': DEBUG
-    '[org.springframework.data.mongodb]': DEBUG
+    'com.fitness': DEBUG
+    'org.springframework.cloud.netflix.eureka': DEBUG
+    'org.springframework.data.mongodb': DEBUG
