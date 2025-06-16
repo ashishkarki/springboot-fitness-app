@@ -11,7 +11,6 @@ import lombok.Data;
 public class UserResponse {
     private String id;
     private String email;
-    private String password;
     private String firstName;
     private String lastName;
     private UserRole role = UserRole.USER;
@@ -30,7 +29,6 @@ public class UserResponse {
         // Copy the properties from the User to the UserResponse
         response.setId(user.getId());
         response.setEmail(user.getEmail());
-        response.setPassword(user.getPassword());
         response.setFirstName(user.getFirstName());
         response.setLastName(user.getLastName());
         response.setRole(user.getRole());
