@@ -63,7 +63,7 @@ cd springboot-fitness-app
 
 ### 3. Build the project
 
-    mvn clean install
+    ./mvnw clean install
 
 ### 4. Run the User/<Individual> Service (Optional)
 
