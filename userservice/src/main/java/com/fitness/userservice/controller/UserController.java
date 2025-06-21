@@ -44,4 +44,19 @@ public class UserController {
       return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
     }
   }
+
+  /**
+   * Validate if a user exists in the system.
+   *
+   * @param userId the user ID to validate
+   * @return a response with the result of the validation. true if the user
+   *         exists,
+   *         false otherwise
+   */
+  @GetMapping("/{userId}/validate")
+  public ResponseEntity<ApiResponse<Boolean>> validateUser(@PathVariable String userId) {
+    boolean userExists = userService.existsByUserId(userId);
+    return ResponseEntity.ok(ApiResponse.success(userExists));
+  }
+
 }

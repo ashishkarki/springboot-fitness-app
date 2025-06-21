@@ -18,6 +18,8 @@ public class ActivityService {
   private final ActivityRepository activityRepository;
   private final ActivityMapper activityMapper;
 
+  private final UserValidationService userValidationService;
+
   /**
    * Saves an activity to the database.
    *
@@ -25,6 +27,12 @@ public class ActivityService {
    * @return the saved activity as a response
    */
   public ActivityResponse trackActivity(ActivityRequest activityRequest) {
+    // Validate the user before saving the activity
+    boolean isValidUser = userValidationService.validateUser(activityRequest.getUserId());
+    if (!isValidUser) {
+      throw new RuntimeException("User with id: " + activityRequest.getUserId() + " not found");
+    }
+
     // Convert the request to an Activity object
     Activity activity = activityMapper.toActivity(activityRequest);
 

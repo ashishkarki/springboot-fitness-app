@@ -28,6 +28,14 @@
     <maven.compiler.target>21</maven.compiler.target>
     <mapstruct.version>1.5.5.Final</mapstruct.version>
   </properties>
+  <dependencies>
+    <!-- DevTools: auto-restart on save in all services -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-devtools</artifactId>
+      <optional>true</optional>
+    </dependency>
+  </dependencies>
   <dependencyManagement>
     <dependencies>
       <!-- Core module version -->

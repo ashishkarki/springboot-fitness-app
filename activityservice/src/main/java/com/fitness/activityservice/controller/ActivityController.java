@@ -32,7 +32,6 @@ public class ActivityController {
   public ResponseEntity<ApiResponse<ActivityResponse>> trackActivity(
       @Valid @RequestBody ActivityRequest activityRequest) {
     try {
-      // Add validation if needed
       log.debug("Tracking activity for user: {}", activityRequest.getUserId());
       ActivityResponse activityResponse = activityService.trackActivity(activityRequest);
       return ResponseEntity.ok(ApiResponse.success(activityResponse));
