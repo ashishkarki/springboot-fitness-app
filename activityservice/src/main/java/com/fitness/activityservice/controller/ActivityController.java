@@ -62,4 +62,14 @@ public class ActivityController {
     }
   }
 
+  @GetMapping("/all")
+  public ResponseEntity<ApiResponse<List<ActivityResponse>>> getAllActivities() {
+    try {
+      List<ActivityResponse> activities = activityService.getAllActivities();
+      return ResponseEntity.ok(ApiResponse.success(activities));
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.error(e.getMessage()));
+    }
+  }
+
 }

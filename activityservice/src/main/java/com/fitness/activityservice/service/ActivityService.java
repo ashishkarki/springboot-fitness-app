@@ -9,8 +9,10 @@ import com.fitness.activityservice.dto.ActivityResponse;
 import com.fitness.activityservice.mapper.ActivityMapper;
 import com.fitness.activityservice.model.Activity;
 import com.fitness.activityservice.repository.ActivityRepository;
+import com.fitness.core.exception.EntityNotFoundException;
 
 import lombok.RequiredArgsConstructor;
+import types.EntityType;
 
 @Service
 @RequiredArgsConstructor
@@ -27,10 +29,13 @@ public class ActivityService {
    * @return the saved activity as a response
    */
   public ActivityResponse trackActivity(ActivityRequest activityRequest) {
+    final String userId = activityRequest.getUserId();
     // Validate the user before saving the activity
-    boolean isValidUser = userValidationService.validateUser(activityRequest.getUserId());
+    boolean isValidUser = userValidationService.validateUser(userId);
     if (!isValidUser) {
-      throw new RuntimeException("User with id: " + activityRequest.getUserId() + " not found");
+      // throw new RuntimeException("User with id: " + activityRequest.getUserId() + "
+      // not found");
+      throw new EntityNotFoundException(EntityType.USER, userId);
     }
 
     // Convert the request to an Activity object
@@ -65,6 +70,14 @@ public class ActivityService {
 
     // Convert activities to responses
     return activityMapper.toActivityResponse(activity);
+  }
+
+  public List<ActivityResponse> getAllActivities() {
+    // Fetch activities from the db
+    List<Activity> activities = activityRepository.findAll();
+
+    // Convert activities to responses
+    return activities.stream().map(activityMapper::toActivityResponse).toList();
   }
 
 }
