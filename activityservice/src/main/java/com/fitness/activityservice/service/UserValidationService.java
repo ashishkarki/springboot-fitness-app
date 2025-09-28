@@ -42,7 +42,7 @@ public class UserValidationService {
       }
 
       if (!apiResponse.isSuccess()) {
-        throw new RuntimeException("Ashish Error validating user: " + userId);
+        throw new RuntimeException("ApiResponse unsuccessful. Error validating user: " + userId);
       }
 
       return apiResponse.getData();
@@ -52,7 +52,7 @@ public class UserValidationService {
       } else if (wcre.getStatusCode() == HttpStatus.BAD_REQUEST) {
         throw new BadRequestException("Bad request while validating user: " + userId);
       } else {
-        throw new RuntimeException("karki..Error validating user: " + userId, wcre);
+        throw new RuntimeException("Error validating user: " + userId, wcre);
       }
     } catch (Exception e) {
       throw new RuntimeException("Unexpected error when validating user: " + userId, e);
